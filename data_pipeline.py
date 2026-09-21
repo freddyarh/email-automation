@@ -38,7 +38,8 @@ SNIPPET_MIN_LEN = 200
 SNIPPET_MAX_LEN = 300
 
 # Common reply-chain and mobile-client markers stripped before snippet extraction.
-_REPLY_DELIMITER = re.compile(r"\nOn .+ wrote:\s*\n", re.IGNORECASE | re.DOTALL)
+_REPLY_DELIMITER = re.compile(
+    r"\nOn .+ wrote:\s*\n", re.IGNORECASE | re.DOTALL)
 _SIGNATURE_DELIMITER = re.compile(r"\n--\s*\n.*", re.DOTALL)
 _MOBILE_FOOTER = re.compile(
     r"\n(Sent from my .+|Get Outlook for .+|Sent from Mail for Windows.+)$",
@@ -156,6 +157,7 @@ def parse_email(message: dict[str, Any]) -> dict[str, str]:
         "id": message["id"],
         "sender": _get_header(headers, "From"),
         "subject": _get_header(headers, "Subject"),
+        "date": _get_header(headers, "Date"),
         "snippet": _build_snippet(body_text or message.get("snippet", "")),
     }
 
